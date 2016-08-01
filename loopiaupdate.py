@@ -265,5 +265,5 @@ def main():
     else:
         loopia.setIP(IP, *q)
 
-if _name__ == "__main__":
+if __name__ == "__main__":
     main()
