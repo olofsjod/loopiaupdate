@@ -244,6 +244,12 @@ def partitionDomain(domain):
 def main():
     HOME = expanduser("~")
     CREDENTIALS_PATH="%s/.loopiaupdate/credentials" % HOME
+
+    if not exists(CREDENTIALS_PATH):
+        print("ERROR: The file %s does not exist, please create it." %
+                CREDENTIALS_PATH)
+        exit()
+
     if exists(CREDENTIALS_PATH) and isFileReadableByOthers(CREDENTIALS_PATH):
         print("ERROR: Your credentials can't be readable by other than the user. Aborting.")
         exit()
