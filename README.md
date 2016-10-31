@@ -3,11 +3,12 @@
 This python script 'loopiaupdate' retrieves the ip and updates a given domain 
 or subdomain using the Loopia domain api interface.
 
-This script have some nice features, e.g. it will add subdomain if it does not
+This script have some nice features e.g. it will add subdomain if it does not
 exist.
 
 ## Usage
 
+### Preparation
 Create a LoopiaAPI account with following permissions:
 * addSubdomain
 * updateZoneRecord
@@ -15,17 +16,17 @@ Create a LoopiaAPI account with following permissions:
 * getSubdomains
 * getZoneRecords
 
-Now you get two options... Either create a credential file with your
+Now you got two options... Either you create a credential file with your
 authentication information OR append username and password in the command.
 (this is NOT recommended if you are using a shared computer)
 
-### Create a credential file
-Then, create ~/.loopiaupdate/credentials in $HOME with following content:
+### How to create a credential file
+Create ~/.loopiaupdate/credentials in $HOME with following content:
 ```
 username=user@loopiaapi
 password=pw
 ```
-...where 'user' is, of course, the username you created at loopia. 
+...where 'user' is, of course, the loopiaapi username you created at loopia. 
 
 ### Syntax
 
