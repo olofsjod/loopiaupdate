@@ -119,13 +119,13 @@ class LoopiaAPI:
 
 
 def help():
-    print("loopiaupdate.py %s\n"
+    print("\n\nloopiaupdate.py %s\n"
           "Author: Olof Sjödin <me@olofsjodin.se>\n" % BUILD_VERSION)
     print("loopiaupdate.py retrieves the ip and updates a given domain"
           " and/or subdomain at Loopia without\nhaving to access the web user"
           " interface.")
-    print("This script have some nice features, it will add a subdomain if it"
-          " does not exist.")
+    print("This script have some nice features, e.g. it will add a subdomain if it"
+          " does not exist.\n")
     print("Syntax: python3 loopiaupdate.py [-h] [-u username -p password]",
           "[--ip 123.123.123.123] <domainname>")
 
@@ -248,10 +248,12 @@ def main():
     if not exists(CREDENTIALS_PATH):
         print("ERROR: The file %s does not exist, please create it." %
                 CREDENTIALS_PATH)
+        help()
         exit()
 
     if exists(CREDENTIALS_PATH) and isFileReadableByOthers(CREDENTIALS_PATH):
         print("ERROR: Your credentials can't be readable by other than the user. Aborting.")
+        help()
         exit()
 
     USERNAME, PASSWORD, DOMAIN, IP = getArguments()
@@ -260,6 +262,7 @@ def main():
         USERNAME, PASSWORD = getCredentials(CREDENTIALS_PATH)
         if USERNAME == "" or PASSWORD == "":
             print("ERROR: You have to provide username and password. Aborting.")
+            help()
             exit()
 
     q = partitionDomain(DOMAIN)
