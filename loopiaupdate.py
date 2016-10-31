@@ -4,7 +4,7 @@
 # loopiaupdate #
  ##############
 
-Copyright 2015  Olof Sjödin
+Copyright 2016  Olof Sjödin
 
 Licensed with GPL v3, see the LICENSE file.
 
