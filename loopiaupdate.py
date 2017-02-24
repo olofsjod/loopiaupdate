@@ -239,31 +239,41 @@ def partitionDomain(domain):
 
     return (_domain, _subdomain)
 
+def error(msg):
+    print(msg)
+    help()
+    exit()
 
-
-def main():
+def retUsrPwFromCredentials():
     HOME = expanduser("~")
     CREDENTIALS_PATH="%s/.loopiaupdate/credentials" % HOME
 
+    # Check if the credential file exist. If not: print an error.
     if not exists(CREDENTIALS_PATH):
-        print("ERROR: The file %s does not exist, please create it." %
+        error("ERROR: The file %s does not exist, please create it." %
                 CREDENTIALS_PATH)
-        help()
-        exit()
 
-    if exists(CREDENTIALS_PATH) and isFileReadableByOthers(CREDENTIALS_PATH):
-        print("ERROR: Your credentials can't be readable by other than the user. Aborting.")
-        help()
-        exit()
+    # Check if the file is readable by others. If it is: print an error.
+    if isFileReadableByOthers(CREDENTIALS_PATH):
+        error("ERROR: Your credentials can't be readable by other than the user. Aborting.")
 
+    # Retrieve the user and password from credential file.
+    USERNAME, PASSWORD = getCredentials(CREDENTIALS_PATH)
+
+    # If one of the parameters is empty print an error.
+    if USERNAME == "" or PASSWORD == "":
+        error("ERROR: You have to provide username and password. Aborting.")
+
+    return (USERNAME, PASSWORD)
+
+def main():
+    # Retrieve arguments from user input
     USERNAME, PASSWORD, DOMAIN, IP = getArguments()
 
+    # Check if user hasn't provided a username or password. If so use the
+    # credential file.
     if USERNAME == "" or PASSWORD == "":
-        USERNAME, PASSWORD = getCredentials(CREDENTIALS_PATH)
-        if USERNAME == "" or PASSWORD == "":
-            print("ERROR: You have to provide username and password. Aborting.")
-            help()
-            exit()
+        USERNAME, PASSWORD = retUsrPwFromCredentials()
 
     q = partitionDomain(DOMAIN)
 
