@@ -4,12 +4,12 @@
 # loopiaupdate #
  ##############
 
-Copyright 2016  Olof Sjödin
+Copyright 2017  Olof Sjödin
 
 Licensed with GPL v3, see the LICENSE file.
 
 """
-BUILD_VERSION="v1.0"
+BUILD_VERSION="v1.1"
 
 import os
 import sys
