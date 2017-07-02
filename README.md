@@ -35,4 +35,4 @@ python3 loopiaupdate.py [-h] [-u username -p password] [--ip 1.2.3.4] <domain>
 ```
 
 ## License
-GPL v3
+This program is protected by GNU General Public License 3.0, it means that you can't use this program in your propertiary code. Please read further in the COPYING file for more information on how it affects you.
