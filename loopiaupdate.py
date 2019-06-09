@@ -4,13 +4,14 @@
 # loopiaupdate #
  ##############
 
-Copyright 2017  Olof Sjödin
+Copyright 2017-2019  Olof Sjödin <me@olofsjodin.se>
 
 Licensed with GPL v3, see the LICENSE file.
 
 """
-BUILD_VERSION="v1.1"
+BUILD_VERSION="v2.0"
 
+import argparse
 import os
 import sys
 import urllib.request
@@ -42,7 +43,7 @@ class LoopiaAPI:
             resp = self.client.addDomain(self.username, self.password, **kwargs)
             print(resp)
 
-    def createRecordObj(type,ttl,priority,rdata,id):
+    def createRecordObj(type, ttl, priority, rdata, id):
         recordObj = dict()
         recordObj['type'] = type
         recordObj['ttl'] = ttl
@@ -52,7 +53,7 @@ class LoopiaAPI:
         return recordObj
 
     def createSubdomain(self, domain, subdomain):
-        print("Adding subdomain %s.%s" % (subdomain, domain))
+        #print("Adding subdomain %s.%s" % (subdomain, domain))
         resp = self.client.addSubdomain(self.username, self.password, domain, subdomain)
         return resp
 
@@ -71,8 +72,10 @@ class LoopiaAPI:
         return recordObj
 
     def setIP(self, ip, domain, subdomain):
-        print("Setting IP %s for %s.%s" % (ip, subdomain,domain))
+        # TODO: If you don't have any interesting to say - don't say it 
+        #print("Setting IP %s for %s.%s" % (ip, subdomain,domain))
 
+        # Requires getZoneRecords, getSubdomains, updateZoneRecord permissions
         resp = []
         if subdomain in self.getSubdomains(domain):
             recordObj = self.client.getZoneRecords(self.username, self.password, domain,
@@ -268,21 +271,37 @@ def retUsrPwFromCredentials():
 
 def main():
     # Retrieve arguments from user input
-    USERNAME, PASSWORD, DOMAIN, IP = getArguments()
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("--credential", metavar="username:password")
+    parser.add_argument("--ip", dest="IP")
+    parser.add_argument("domain", nargs='+')
 
+    #parser.print_help()
+    args = parser.parse_args()
+    
     # Check if user hasn't provided a username or password. If so use the
     # credential file.
-    if USERNAME == "" or PASSWORD == "":
+    if args.credential is None:
         USERNAME, PASSWORD = retUsrPwFromCredentials()
-
-    q = partitionDomain(DOMAIN)
+    else:
+        tmp = args.credential.split(":")
+        USERNAME = tmp[0]
+        PASSWORD = tmp[1]
 
     loopia = LoopiaAPI(USERNAME, PASSWORD)
 
-    if IP == "":
-        loopia.setIP(getIP(), *q)
-    else:
-        loopia.setIP(IP, *q)
+    IP = args.ip
+    
+    for DOMAIN in args.domain:
+        # Separate the domain and subdomain
+        q = partitionDomain(DOMAIN)
+
+        if IP == "":
+            print(getIP())
+            loopia.setIP(getIP(), *q)
+        else:
+            print()
+            loopia.setIP(IP, *q)
 
 if __name__ == "__main__":
     main()
