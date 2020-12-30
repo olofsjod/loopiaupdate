@@ -273,7 +273,7 @@ def main():
     # Retrieve arguments from user input
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("--credential", metavar="username:password")
-    parser.add_argument("--ip", dest="IP")
+    parser.add_argument("--ip", help="The IP address")
     parser.add_argument("domain", nargs='+')
 
     #parser.print_help()
@@ -296,7 +296,7 @@ def main():
         # Separate the domain and subdomain
         q = partitionDomain(DOMAIN)
 
-        if IP == "":
+        if IP:
             print(getIP())
             loopia.setIP(getIP(), *q)
         else:
