@@ -296,7 +296,7 @@ def main():
         # Separate the domain and subdomain
         q = partitionDomain(DOMAIN)
 
-        if IP:
+        if IP == None:
             print(getIP())
             loopia.setIP(getIP(), *q)
         else:
