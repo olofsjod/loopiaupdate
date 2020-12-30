@@ -9,7 +9,7 @@ Copyright 2017-2019  Olof Sjödin <me@olofsjodin.se>
 Licensed with GPL v3, see the LICENSE file.
 
 """
-BUILD_VERSION="v2.0"
+BUILD_VERSION="v2.0.1"
 
 import argparse
 import os
@@ -120,19 +120,7 @@ class LoopiaAPI:
         else:
             return STATUS
 
-
-def help():
-    print("\n\nloopiaupdate.py %s\n"
-          "Author: Olof Sjödin <me@olofsjodin.se>\n" % BUILD_VERSION)
-    print("loopiaupdate.py retrieves the ip and updates a given domain"
-          " and/or subdomain at Loopia without\nhaving to access the web user"
-          " interface.")
-    print("This script have some nice features, e.g. it will add a subdomain if it"
-          " does not exist.\n")
-    print("Syntax: python3 loopiaupdate.py [-h] [-u username -p password]",
-          "[--ip 123.123.123.123] <domainname>")
-
-
+        
 def getCredentials(f_path):
     if not exists(f_path):
         print("ERROR: The configuration file (%s) does not exist!"
@@ -157,52 +145,6 @@ def getCredentials(f_path):
                 exit()
 
     return (username, password)
-
-def getArguments():
-    ARGV = sys.argv
-    _USERNAME = ""
-    _PASSWORD = ""
-    _IP = ""
-
-    if "-h" in ARGV:
-        help()
-        exit()
-
-    if "-u" in ARGV:
-        k = 0
-        for i in range(len(ARGV)):
-            if ARGV[i] != "-u":
-                pass
-            else:
-                k=i+1
-                break
-        _USERNAME = ARGV[k]
-    if "-p" in ARGV:
-        k = 0
-        for i in range(len(ARGV)):
-            if ARGV[i] != "-p":
-                pass
-            else:
-                k=i+1
-                break
-        _PASSWORD = ARGV[k]
-    if "--ip" in ARGV:
-        k = 0
-        for i in range(len(ARGV)):
-            if ARGV[i] != "--ip":
-                pass
-            else:
-                k=i+1
-                break
-        _IP = ARGV[k]
-
-    if (len(ARGV)-1) == 0:
-        print("ERROR: You must set a domain. Aborting.")
-        help()
-        exit()
-
-    _DOMAIN = ARGV[len(ARGV)-1]
-    return (_USERNAME, _PASSWORD, _DOMAIN, _IP)
 
 def getIP():
     try:
